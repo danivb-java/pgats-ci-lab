@@ -35,7 +35,7 @@ jobs:
         run: yarn
 
       # instalaçao do Playwrigth
-      - name: Instalando Playwright
+      - name: Instalando playwright
         run: yarn playwright install
 
       # instalaçao dos testes e2e
