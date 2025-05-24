@@ -40,4 +40,4 @@ jobs:
 
       # instalaçao dos testes e2e
       - name: Executando Testes E2E
-        run: yarn runb e2e
+        run: yarn run e2e
