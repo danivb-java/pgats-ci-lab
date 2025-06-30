@@ -23,7 +23,6 @@ on:
 # trabalhos ou tarefas dentro do pipeline = jobs
 jobs:
   e2e-tests:
-
     #maquina que o job vai executar
     runs-on: ubuntu-latest
 

@@ -6,7 +6,6 @@
 #     - steps - executar scripts de testes
 #     - steps - publicar resultados
 
-
 # - workflow - n4
 #   - jobs - inspecao (bloco1)
 #     - steps - instalar deps
@@ -24,7 +23,6 @@
 #     - steps - instalar deps
 #     - steps - gerar artefatos de aplicacao
 #     - steps - subir artefatos para o servidor/ publicar a aplicacao em algum ambiente
-
 
 name: 'Execuçao Integrada'
 
@@ -91,7 +89,7 @@ jobs:
         if: ${{ !cancelled() }}
         with:
           name: relatorio
-          path: ./playwright-report 
+          path: ./playwright-report
 
   deploy:
     runs-on: ubuntu-latest
