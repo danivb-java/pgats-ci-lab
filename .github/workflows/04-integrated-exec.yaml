@@ -11,15 +11,18 @@
 #     - steps - instalar deps
 #     - steps - executar script de lint
 #   - jobs - unidade (bloco1)
+#     - depende de: inspecao
 #     - steps - instalar deps
 #     - steps - executar script de lteste de unidade
 #  - jobs - e2e-tests (bloco2)
+#     - depende de: unidade
 #     - steps - instalar deps
 #     - steps - subir a aplicacao localmente
 #     - steps - instalar browsers / navegadores
 #     - steps - executar script de testes e2e
 #     - steps - publicar resultados de testes (zip/online)
 #  - jobs - deploy (bloco3)
+#     - depende de: e2e-tests
 #     - steps - instalar deps
 #     - steps - gerar artefatos de aplicacao
 #     - steps - subir artefatos para o servidor/ publicar a aplicacao em algum ambiente
@@ -46,6 +49,8 @@ jobs:
 
   unidade:
     runs-on: ubuntu-latest
+    needs: [inspecao]
+
     steps:
       - uses: actions/checkout@v4
 
@@ -60,6 +65,8 @@ jobs:
 
   e2e-tests:
     runs-on: ubuntu-latest
+    needs: [inspecao]
+
     steps:
       # clone do projeto
       - uses: actions/checkout@v4
@@ -93,6 +100,7 @@ jobs:
 
   deploy:
     runs-on: ubuntu-latest
+    needs: [e2e-tests]
 
     steps:
       - name: Simulacao do Deploy
