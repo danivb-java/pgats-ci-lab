@@ -1,0 +1,101 @@
+# CI de Nivel 04 - Disparo dos testes dentrodo pipe de dev
+
+# - workflow - n1/n2/n3
+#   - jobs - e2e-tests
+#     - steps - instalar dependencias
+#     - steps - executar scripts de testes
+#     - steps - publicar resultados
+
+
+# - workflow - n4
+#   - jobs - inspecao (bloco1)
+#     - steps - instalar deps
+#     - steps - executar script de lint
+#   - jobs - unidade (bloco1)
+#     - steps - instalar deps
+#     - steps - executar script de lteste de unidade
+#  - jobs - e2e-tests (bloco2)
+#     - steps - instalar deps
+#     - steps - subir a aplicacao localmente
+#     - steps - instalar browsers / navegadores
+#     - steps - executar script de testes e2e
+#     - steps - publicar resultados de testes (zip/online)
+#  - jobs - deploy (bloco3)
+#     - steps - instalar deps
+#     - steps - gerar artefatos de aplicacao
+#     - steps - subir artefatos para o servidor/ publicar a aplicacao em algum ambiente
+
+
+name: 'Execuçao Integrada'
+
+on:
+  workflow_dispatch:
+
+jobs:
+  inspecao:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalando Yarn
+        run: npm install -g yarn
+
+      - name: Instalando dependencias
+        run: yarn
+
+      - name: Checando padronizacao do codigo
+        run: yarn lint
+
+  unidade:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalando Yarn
+        run: npm install -g yarn
+
+      - name: Instalando dependencias
+        run: yarn
+
+      - name: Executando testes de unidade
+        run: yarn test
+
+  e2e-tests:
+    runs-on: ubuntu-latest
+    steps:
+      # clone do projeto
+      - uses: actions/checkout@v4
+
+      # instalaçao do node
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+
+      # instalaçao do Yarn
+      - name: Instalando Yarn
+        run: npm install -g yarn
+
+      # instalaçao das dependencias
+      - name: Instalando dependencias
+        run: yarn
+
+      # instalaçao do Playwrigth
+      - name: Instalando playwright
+        run: yarn playwright install
+
+      # instalaçao dos testes e2e
+      - name: Executando Testes E2E
+        run: yarn run e2e
+
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: relatorio
+          path: ./playwright-report 
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Simulacao do Deploy
+        run: echo "Deploy realizado com sucesso!"
