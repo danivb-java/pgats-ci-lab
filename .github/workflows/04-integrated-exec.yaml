@@ -11,7 +11,7 @@
 #     - steps - instalar deps
 #     - steps - executar script de lint
 #   - jobs - unidade (bloco1)
-#     - depende de: inspecao
+#     - depende de: inspecao - nesse caso usa-se o needs:
 #     - steps - instalar deps
 #     - steps - executar script de lteste de unidade
 #  - jobs - e2e-tests (bloco2)
